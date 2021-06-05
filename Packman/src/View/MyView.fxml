@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<?import View.MazeDisplayer?>
+<?import View.*?>
 <GridPane fx:id="GridPane1" onMouseClicked="#mouseCLicked" prefHeight="268.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -20,7 +20,7 @@
    <children>
       <Pane prefHeight="25.0">
          <children>
-            <MenuBar prefHeight="25.0" prefWidth="433.0">
+            <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="433.0">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
@@ -42,7 +42,7 @@
          </children>
       </Pane>
       <Pane fx:id="MazePane" onMouseClicked="#mouseCLicked" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-          <MazeDisplayer fx:id="MazeDisplayer"  imageFileNamePlayer="./resources/thisboat.png" imageFileNameSea="./resources/Sea1.jpg" imageFileNameWall="./resources/ThisSand.jpg" onKeyPressed="#keyPressed"  />
+          <MazeDisplayer fx:id="MazeDisplayer" imageFileNamePlayer="./resources/thisboat.png" imageFileNameSea="./resources/Sea1.jpg" imageFileNameWall="./resources/ThisSand.jpg" onKeyPressed="#keyPressed" />
       </Pane>
    </children>
 </GridPane>

@@ -1,19 +1,22 @@
 package View;
 
 import ViewModel.MyViewModel;
+import algorithms.mazeGenerators.Maze;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.IntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
@@ -22,10 +25,18 @@ import java.util.ResourceBundle;
 
 public class MyViewController implements Initializable,Observer {
 
+    private InvalidationListener listener = new InvalidationListener(){
+
+        @Override
+        public void invalidated(javafx.beans.Observable observable) {
+            MazeDisplayer.draw();
+        }
+    };
     public MyViewModel viewModel;
     public View.MazeDisplayer MazeDisplayer;
     public GridPane GridPane1;
     public Pane MazePane;
+    public MenuBar menuBar;
 
     IntegerProperty updateWindowSizeHeight;
     IntegerProperty updateWindowSizeWidth;
@@ -127,12 +138,16 @@ public class MyViewController implements Initializable,Observer {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MazeDisplayer.widthProperty().bind(GridPane1.prefWidthProperty());
-        MazeDisplayer.heightProperty().bind(MazePane.prefHeightProperty());
+        MazeDisplayer.widthProperty().bind(MazePane.widthProperty());
+        MazeDisplayer.heightProperty().bind(MazePane.heightProperty());
+        MazeDisplayer.widthProperty().addListener(listener);
+        MazeDisplayer.heightProperty().addListener(listener);
+        menuBar.prefWidthProperty().bind(GridPane1.widthProperty());
     }
 
 
     public void mouseCLicked(MouseEvent mouseEvent) {
         MazeDisplayer.requestFocus();
     }
+
 }
