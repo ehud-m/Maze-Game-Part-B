@@ -5,6 +5,7 @@ import Server.*;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 
+import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.ClosedByInterruptException;
@@ -111,6 +112,14 @@ public class MyModel extends Observable implements IModel{
                 break;
         }
 
+    }
+
+    @Override
+    public void saveMaze(File filetosave) throws IOException {
+        ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(filetosave));
+        ob.writeObject(maze);
+        ob.flush();
+        ob.close();
     }
 
     private void updateLocation(int newplayerRow, int newplayerCol) {

@@ -4,6 +4,9 @@ package Model;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Observer;
 
@@ -17,4 +20,6 @@ public interface IModel {
     int getPlayerRow();
     int getPlayerCol();
     void assignObserver(Observer o);
+
+    void saveMaze(File filetosave) throws IOException;
 }
