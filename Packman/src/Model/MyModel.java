@@ -41,6 +41,20 @@ public class MyModel extends Observable implements IModel{
         notifyObservers("maze generated");
     }
 
+    public void saveMaze(File filetosave) throws IOException {
+        ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(filetosave));
+        ob.writeObject(maze);
+        ob.flush();
+        ob.close();
+    }
+    public void loadMaze(Maze maze) {
+        this.maze=maze;
+        playerRow = maze.getStartPosition().getRowIndex(); // strat pos
+        playerCol = maze.getStartPosition().getColumnIndex();
+        setChanged();
+        notifyObservers("maze generated");
+    }
+
     @Override
     public Maze getMaze() {
         return maze;
@@ -112,14 +126,6 @@ public class MyModel extends Observable implements IModel{
                 break;
         }
 
-    }
-
-    @Override
-    public void saveMaze(File filetosave) throws IOException {
-        ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(filetosave));
-        ob.writeObject(maze);
-        ob.flush();
-        ob.close();
     }
 
     private void updateLocation(int newplayerRow, int newplayerCol) {

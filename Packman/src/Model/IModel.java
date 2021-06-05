@@ -5,13 +5,14 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Observer;
 
 public interface IModel {
 
+    void saveMaze(File filetosave) throws IOException;
+    void loadMaze(Maze maze);
     void generateMaze(int rows,int cols) throws UnknownHostException; // generate a maze
     Maze getMaze(); //will return the maze that the model creates
     void solveMaze() throws UnknownHostException; //the model already have the maze as a data member
@@ -20,6 +21,4 @@ public interface IModel {
     int getPlayerRow();
     int getPlayerCol();
     void assignObserver(Observer o);
-
-    void saveMaze(File filetosave) throws IOException;
 }
