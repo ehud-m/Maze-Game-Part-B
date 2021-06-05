@@ -18,15 +18,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
-
 public class MyViewController implements Initializable,Observer {
 
     private InvalidationListener listener = new InvalidationListener(){
@@ -77,7 +73,7 @@ public class MyViewController implements Initializable,Observer {
 
     }
 
-    public void MenuBarSavePressed(javafx.event.ActionEvent actionEvent) {
+    public void MenuBarSavePressed(javafx.event.ActionEvent actionEvent){
         FileChooser fc = new FileChooser();
 
         fc.setTitle("Save maze");
@@ -86,19 +82,34 @@ public class MyViewController implements Initializable,Observer {
         File chosen = fc.showSaveDialog(null);
 
         try {
-        viewModel.saveMaze(chosen);
+            viewModel.saveMaze(chosen);
         }
         catch (IOException e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Couldn't save Maze");
             alert.show();
         }
-
     }
 
     public void MenuBarLoadPressed(javafx.event.ActionEvent actionEvent){
-
-
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open maze");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Maze files (*.maze)", "*.maze"));
+        fc.setInitialDirectory(new File("./resources"));
+        File chosen = fc.showOpenDialog(null);
+        try {
+            viewModel.loadMaze(chosen);
+        }
+        catch (IOException | ClassNotFoundException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Couldn't open file!");
+            alert.show();
+        }
+        catch (IllegalArgumentException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("File doesn't contain a legal maze!");
+            alert.show();
+        }
     }
 
     public void MenuBarExitPressed(javafx.event.ActionEvent actionEvent){
