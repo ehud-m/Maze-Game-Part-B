@@ -150,4 +150,6 @@ public class MyViewController implements Initializable,Observer {
         MazeDisplayer.requestFocus();
     }
 
+    public void MenuBarSolvePressed(ActionEvent actionEvent) {
+    }
 }
