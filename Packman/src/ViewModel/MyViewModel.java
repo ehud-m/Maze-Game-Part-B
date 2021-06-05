@@ -7,6 +7,8 @@ import com.sun.javaws.exceptions.InvalidArgumentException;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyEvent;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
@@ -36,6 +38,10 @@ public class MyViewModel extends Observable implements Observer {
 
     public Maze getMaze(){
         return model.getMaze();
+    }
+
+    public void saveMaze(File filetosave) throws IOException {
+        model.saveMaze(filetosave);
     }
     // we need to change it#%^$^&U^UTYJETYJERTYJRTYJRTYJ Throws exception
     public void solveMaze() throws UnknownHostException {
