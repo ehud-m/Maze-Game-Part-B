@@ -7,9 +7,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+
 <?import View.*?>
-
-
 <GridPane fx:id="GridPane1" onMouseClicked="#mouseCLicked" prefHeight="268.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -35,16 +34,16 @@
                                 <MenuItem mnemonicParsing="false" onAction="#MenuBarPropertiesPressed" text="Properties" />
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" onAction="#MenuBarExitPressed" text="Exit" />
-                        <Menu mnemonicParsing="false" onAction="#MenuBarHelpPressed" text="Help" />
-                        <Menu mnemonicParsing="false" onAction="#MenuBarAboutPressed" text="About" />
-                  <Menu mnemonicParsing="false" onAction="#MenuBarSolvePressed" text="Solve" />
+                        <Menu fx:id="exitButton" mnemonicParsing="false" text="" />
+                        <Menu fx:id="helpButton" mnemonicParsing="false" text="" />
+                        <Menu fx:id="aboutButton" mnemonicParsing="false" text="" />
+                        <Menu fx:id="solveButton" disable="true" mnemonicParsing="false"  text="" />
                     </menus>
                 </MenuBar>
             </children>
         </Pane>
         <Pane fx:id="MazePane" onMouseClicked="#mouseCLicked" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-            <MazeDisplayer fx:id="MazeDisplayer" imageFileNamePlayer="./resources/thisboat.png" imageFileNameSea="./resources/Sea1.jpg" imageFileNameWall="./resources/ThisSand.jpg" onKeyPressed="#keyPressed" />
+            <MazeDisplayer fx:id="MazeDisplayer" imageFileNamePlayer="./resources/thisboat.png" imageFileNameSea="./resources/Sea1.jpg" imageFileNameSolution="./resources/flag.png" imageFileNameWall="./resources/ThisSand.jpg" onKeyPressed="#keyPressed" />
         </Pane>
     </children>
 </GridPane>

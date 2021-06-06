@@ -2,6 +2,9 @@ package View;
 
 import Model.*;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.AState;
+import algorithms.search.MazeState;
+import algorithms.search.Solution;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -13,7 +16,7 @@ import javafx.scene.paint.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class MazeDisplayer<Solution> extends Canvas {
+public class MazeDisplayer extends Canvas {
     private Maze maze;
     private Solution solution;
     // player position:
@@ -23,7 +26,7 @@ public class MazeDisplayer<Solution> extends Canvas {
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNameSea = new SimpleStringProperty();
-
+    StringProperty imageFileNameSolution = new SimpleStringProperty();
 
     public void setImageFileNameSea(String imageFileNameSea) {
         this.imageFileNameSea.set(imageFileNameSea);
@@ -33,7 +36,13 @@ public class MazeDisplayer<Solution> extends Canvas {
         return imageFileNameSea.get();
     }
 
+    public String getImageFileNameSolution() {
+        return imageFileNameSolution.get();
+    }
 
+    public void setImageFileNameSolution(String imageFileNameSolution) {
+        this.imageFileNameSolution.set(imageFileNameSolution);
+    }
 
     public int getPlayerRow() {
         return playerRow;
@@ -53,19 +62,12 @@ public class MazeDisplayer<Solution> extends Canvas {
         return imageFileNameWall.get();
     }
 
-    public String imageFileNameWallProperty() {
-        return imageFileNameWall.get();
-    }
 
     public void setImageFileNameWall(String imageFileNameWall) {
         this.imageFileNameWall.set(imageFileNameWall);
     }
 
     public String getImageFileNamePlayer() {
-        return imageFileNamePlayer.get();
-    }
-
-    public String imageFileNamePlayerProperty() {
         return imageFileNamePlayer.get();
     }
 
@@ -95,12 +97,29 @@ public class MazeDisplayer<Solution> extends Canvas {
             graphicsContext.clearRect(0, 0, canvasWidth, canvasHeight);
 
             drawMazeWalls(graphicsContext, cellHeight, cellWidth, rows, cols);
-      //      if (solution != null)
-       //         drawSolution(graphicsContext, cellHeight, cellWidth); ///Implement this
+            if (solution != null)
+                drawMazeSolution(graphicsContext, cellHeight, cellWidth); ///Implement this
+
             drawPlayer(graphicsContext, cellHeight, cellWidth);
         }
     }
 
+    private void drawMazeSolution(GraphicsContext graphicsContext, double cellHeight, double cellWidth) {
+        Image solutionImage = null;
+        try {
+            solutionImage = new Image(new FileInputStream(getImageFileNameSolution()));
+        } catch (FileNotFoundException e) {
+            System.out.println("There is no player image file");
+        }
+       // if(playerImage == null)
+       //     graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+       // else
+        for (AState s:solution.getSolutionPath()) {
+            double x = ((MazeState)s).getPosition().getColumnIndex() * cellWidth;
+            double y = ((MazeState)s).getPosition().getRowIndex() * cellHeight;
+            graphicsContext.drawImage(solutionImage,x,y,cellWidth,cellHeight);
+        }
+    }
     private void drawMazeWalls(GraphicsContext graphicsContext, double cellHeight, double cellWidth, int rows, int cols) {
         graphicsContext.setFill(Color.RED);
 

@@ -1,9 +1,8 @@
 package ViewModel;
-
-import Model.*;
+import Model.IModel;
+import Model.MovementDirection;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
-import javafx.scene.control.Alert;
 import javafx.scene.input.KeyEvent;
 
 import java.io.File;
