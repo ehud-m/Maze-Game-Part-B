@@ -1,6 +1,7 @@
 package View;
 
 import ViewModel.MyViewModel;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -10,11 +11,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-public class CreateMazeWindow implements Observer {
+public class CreateMazeWindow extends AView implements Observer{
 
     public TextField new_maze_rows;
     public TextField new_maze_columns;
-    private MyViewModel myViewModel;
+
+
+
 
     public void generateMaze(ActionEvent actionEvent) {
         try {
@@ -29,17 +32,15 @@ public class CreateMazeWindow implements Observer {
             alert.setContentText("Please Enter Numbers Only");
             alert.show();
         }
-        catch (IllegalArgumentException invalidargs){
+        catch (InvalidArgumentException invalidargs){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Please Enter Numbers bigger than 2");
             alert.show();
         }
     }
 
-    public void setViewModel(MyViewModel viewModel) {
-        myViewModel = viewModel;
-        //myViewModel.addObserver(this);
-    }
+
+
 
     @Override
     public void update(Observable o, Object arg) {
