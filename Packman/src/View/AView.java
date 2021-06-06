@@ -15,7 +15,23 @@ public abstract class AView implements IView {
 
     protected MyViewModel myViewModel;
 
-    public void openNewWindow(MyViewModel viewModel, String view_name, String window_name){
+    public void openNewWindow(String view_name, String window_name){
+        Parent root;
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(view_name));
+            root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle(window_name);
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+        }
+
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openNewWindowModel(MyViewModel viewModel, String view_name, String window_name) {
         Parent root;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(view_name));
@@ -31,9 +47,6 @@ public abstract class AView implements IView {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
     }
         public void setViewModel(MyViewModel viewModel){
             this.myViewModel = viewModel;

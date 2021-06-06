@@ -36,6 +36,7 @@ public class MyViewController extends AView implements Initializable,Observer {
     public Menu exitButton;
     public Menu helpButton;
     public Menu aboutButton;
+    public MenuItem saveButton;
     private InvalidationListener listener = new InvalidationListener(){
 
         @Override
@@ -62,22 +63,7 @@ public class MyViewController extends AView implements Initializable,Observer {
 
 
     public void MenuBarNewPressed(javafx.event.ActionEvent actionEvent) {
-        Parent root;
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateMazeWindow.fxml"));
-            root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Maze Creator");
-            stage.setScene(new Scene(root, 450, 450));
-            CreateMazeWindow createMazeWindow = fxmlLoader.getController();
-            createMazeWindow.setViewModel(viewModel);
-
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
     }
 
     public void MenuBarSavePressed(javafx.event.ActionEvent actionEvent){
@@ -124,11 +110,11 @@ public class MyViewController extends AView implements Initializable,Observer {
     }
 
     public void MenuBarPropertiesPressed(javafx.event.ActionEvent actionEvent){
-        openNewWindow(viewModel,"OptionsWindow.fxml","Options");
+        openNewWindowModel(viewModel,"OptionsWindow.fxml","Options");
     }
 
     public void MenuBarHelpPressed(){
-
+        openNewWindow("HelpWindow.fxml","Help");
     }
     public void MenuBarAboutPressed(){
 
@@ -156,10 +142,12 @@ public class MyViewController extends AView implements Initializable,Observer {
 
     private void goalReached() {
         playerMoved();
-
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("PARTYYYYYYYYYYYYY!");
+        alert.show();
 
         //  FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
-
+/*
 
 
         Stage stage = new Stage();
@@ -186,7 +174,7 @@ public class MyViewController extends AView implements Initializable,Observer {
         double h = stage.getHeight();
         mediaView.setFitHeight(h);
         mediaView.setFitWidth(w);
-        stage.show();
+        stage.show();*/
     }
 
     private void mazeSolved() {
@@ -199,6 +187,7 @@ public class MyViewController extends AView implements Initializable,Observer {
 
     private void mazeGenerated() {
         solveButton.setDisable(false);
+        saveButton.setDisable(false);
         MazeDisplayer.drawMaze(viewModel.getMaze());
     }
 

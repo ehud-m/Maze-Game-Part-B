@@ -77,6 +77,7 @@ public class MazeDisplayer extends Canvas {
 
     public void drawMaze(Maze maze) {
         this.maze = maze;
+        this.solution=null;
         this.playerRow = maze.getStartPosition().getRowIndex();
         this.playerCol = maze.getStartPosition().getColumnIndex();
         draw();

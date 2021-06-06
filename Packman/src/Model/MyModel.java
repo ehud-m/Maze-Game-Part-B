@@ -34,6 +34,7 @@ public class MyModel extends Observable implements IModel{
         Client client = new Client(InetAddress.getLocalHost(),5400,clientStrategyGenerateMaze);
         client.communicateWithServer();
 
+        this.solution=null;
         maze = clientStrategyGenerateMaze.getMaze();
         playerRow = maze.getStartPosition().getRowIndex(); // strat pos
         playerCol = maze.getStartPosition().getColumnIndex();
@@ -48,6 +49,7 @@ public class MyModel extends Observable implements IModel{
         ob.close();
     }
     public void loadMaze(Maze maze) {
+        this.solution=null;
         this.maze=maze;
         playerRow = maze.getStartPosition().getRowIndex(); // strat pos
         playerCol = maze.getStartPosition().getColumnIndex();
