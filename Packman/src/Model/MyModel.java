@@ -49,8 +49,8 @@ public class MyModel extends Observable implements IModel{
         ob.close();
     }
     public void loadMaze(Maze maze) {
-        this.solution=null;
         this.maze=maze;
+        this.solution=null;
         playerRow = maze.getStartPosition().getRowIndex(); // strat pos
         playerCol = maze.getStartPosition().getColumnIndex();
         setChanged();

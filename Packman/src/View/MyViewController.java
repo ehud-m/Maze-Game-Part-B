@@ -3,6 +3,8 @@ package View;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -114,7 +116,7 @@ public class MyViewController extends AView implements Initializable,Observer {
     }
 
     public void MenuBarHelpPressed(){
-        openNewWindow("HelpWindow.fxml","Help");
+
     }
     public void MenuBarAboutPressed(){
 
@@ -142,12 +144,10 @@ public class MyViewController extends AView implements Initializable,Observer {
 
     private void goalReached() {
         playerMoved();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("PARTYYYYYYYYYYYYY!");
-        alert.show();
+
 
         //  FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
-/*
+
 
 
         Stage stage = new Stage();
@@ -163,18 +163,22 @@ public class MyViewController extends AView implements Initializable,Observer {
         MediaView mediaView = new MediaView(mediaPlayer);
 
 
+        DoubleProperty mvw = mediaView.fitWidthProperty();
+        DoubleProperty mvh = mediaView.fitHeightProperty();
+
+        mvw.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
+        mvh.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+        mediaView.setPreserveRatio(true);
 
         Group root = new Group();
         root.getChildren().add(mediaView);
         Scene scene = new Scene(root,600,400);
-
+        Main.stopMusic();
         //root.getChildren().add(mediaView);
         stage.setScene(scene);
-        double w = stage.getWidth(); // player.getMedia().getWidth();
-        double h = stage.getHeight();
-        mediaView.setFitHeight(h);
-        mediaView.setFitWidth(w);
-        stage.show();*/
+
+        stage.show();
+        Main.startMusic();
     }
 
     private void mazeSolved() {

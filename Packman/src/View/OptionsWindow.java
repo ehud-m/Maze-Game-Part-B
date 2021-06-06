@@ -33,6 +33,7 @@ public class OptionsWindow extends AView implements Initializable {
         ArrayList<String> generating_algorithms_names = new ArrayList<>();
         generating_algorithms_names.add("My Maze Generator");
         generating_algorithms_names.add("Simple Maze Generator");
+        generating_algorithms_names.add("Empty Maze Generator");
         ObservableList<String> generate_list = FXCollections.observableArrayList(generating_algorithms_names);
         generate_Algorithm_choiseBox.setItems(generate_list);
 
