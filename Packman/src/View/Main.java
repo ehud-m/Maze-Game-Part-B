@@ -21,10 +21,10 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("TreasureHunt");
-        String s = "./resources/Pirates Of The Caribbean Theme Song.mp3";
+        /*String s = "./resources/Pirates Of The Caribbean Theme Song.mp3";
         Media media = new Media(Paths.get(s).toUri().toString());
         mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setAutoPlay(true);*/
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
         IModel model = new MyModel();

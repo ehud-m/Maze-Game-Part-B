@@ -1,14 +1,14 @@
 package ViewModel;
-
-import Model.*;
+import Model.IModel;
+import Model.MovementDirection;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
-import com.sun.javaws.exceptions.InvalidArgumentException;
-import javafx.scene.control.Alert;
 import javafx.scene.input.KeyEvent;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,11 +26,13 @@ public class MyViewModel extends Observable implements Observer {
         setChanged();
         notifyObservers(o);
     }
+    public void saveMaze(File filetosave) throws IOException {
+        model.saveMaze(filetosave);
+    }
     // we need to change it#%^$^&U^UTYJETYJERTYJRTYJRTYJ Throws exception
-    public void generateMaze(int rows,int cols) throws InvalidArgumentException,UnknownHostException { ////!!!UnknownHostException {
+    public void generateMaze(int rows,int cols) throws IllegalArgumentException,UnknownHostException { ////!!!UnknownHostException {
         if (rows <1 || cols<1){
-            String [] error =  {"invalid numbers"};
-            throw new InvalidArgumentException(error);
+            throw new IllegalArgumentException();
         }
         model.generateMaze(rows, cols);
     }
@@ -38,11 +40,6 @@ public class MyViewModel extends Observable implements Observer {
 
     public Maze getMaze(){
         return model.getMaze();
-    }
-
-    public void saveMaze(File filetosave) throws IOException {
-        model.saveMaze(filetosave);
-
     }
     // we need to change it#%^$^&U^UTYJETYJERTYJRTYJRTYJ Throws exception
     public void solveMaze() throws UnknownHostException {
@@ -97,5 +94,17 @@ public class MyViewModel extends Observable implements Observer {
 
     public int getPlayerCol(){
         return model.getPlayerCol();
+    }
+
+    public void loadMaze(File chosen) throws IOException, ClassNotFoundException, IllegalArgumentException {
+
+        ObjectInputStream reader = new ObjectInputStream(new FileInputStream(chosen));
+
+        Object obj = reader.readObject();
+        if (!(obj instanceof Maze))
+            throw new IllegalArgumentException();
+        else
+            model.loadMaze((Maze)obj);
+
     }
 }

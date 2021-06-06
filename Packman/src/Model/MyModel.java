@@ -4,14 +4,13 @@ import Client.Client;
 import Server.*;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
-import Server.Configurations;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.ClosedByInterruptException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.jar.JarFile;
 
 public class MyModel extends Observable implements IModel{
     private Maze maze;
@@ -20,7 +19,6 @@ public class MyModel extends Observable implements IModel{
     private int playerCol;
     private Server generator;
     private Server solver;
-
 
     public MyModel() {
         generator = new Server(5400,1000,new ServerStrategyGenerateMaze());
@@ -41,12 +39,20 @@ public class MyModel extends Observable implements IModel{
         playerCol = maze.getStartPosition().getColumnIndex();
         setChanged();
         notifyObservers("maze generated");
+    }
 
-        /*Configurations c = Configurations.getConfigInstance();
-        c.writeProp();*/
-
-
-
+    public void saveMaze(File filetosave) throws IOException {
+        ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(filetosave));
+        ob.writeObject(maze);
+        ob.flush();
+        ob.close();
+    }
+    public void loadMaze(Maze maze) {
+        this.maze=maze;
+        playerRow = maze.getStartPosition().getRowIndex(); // strat pos
+        playerCol = maze.getStartPosition().getColumnIndex();
+        setChanged();
+        notifyObservers("maze generated");
     }
 
     @Override
@@ -120,14 +126,6 @@ public class MyModel extends Observable implements IModel{
                 break;
         }
 
-    }
-
-    @Override
-    public void saveMaze(File filetosave) throws IOException {
-        ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream(filetosave));
-        ob.writeObject(maze);
-        ob.flush();
-        ob.close();
     }
 
     private void updateLocation(int newplayerRow, int newplayerCol) {
