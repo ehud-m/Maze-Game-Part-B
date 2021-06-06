@@ -48,8 +48,8 @@ public abstract class AView implements IView {
             e.printStackTrace();
         }
     }
-    public void setViewModel(MyViewModel viewModel){
-        this.myViewModel = viewModel;
-        //     this.myViewModel.addObserver((Observer) view);
-    }
+        public void setViewModel(MyViewModel viewModel){
+            this.myViewModel = viewModel;
+       //     this.myViewModel.addObserver((Observer) view);
+        }
 }

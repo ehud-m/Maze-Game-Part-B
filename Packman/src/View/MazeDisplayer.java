@@ -82,6 +82,7 @@ public class MazeDisplayer extends Canvas {
         this.playerCol = maze.getStartPosition().getColumnIndex();
         draw();
     }
+
     public void draw() {
         if(maze != null){
             double canvasHeight = getHeight();
