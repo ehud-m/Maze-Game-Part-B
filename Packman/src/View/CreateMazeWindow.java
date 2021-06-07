@@ -15,7 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-public class CreateMazeWindow extends AView  {
+public class CreateMazeWindow extends AViewMenuBarUsers  {
 
     public TextField new_maze_rows;
     public TextField new_maze_columns;
