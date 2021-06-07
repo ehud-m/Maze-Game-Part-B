@@ -13,7 +13,7 @@ import java.util.Observer;
 
 public abstract class AView implements IView {
 
-    protected MyViewModel myViewModel;
+    protected MyViewModel viewModel;
 
     public void openNewWindow(String view_name, String window_name){
         Parent root;
@@ -49,7 +49,7 @@ public abstract class AView implements IView {
         }
     }
     public void setViewModel(MyViewModel viewModel){
-        this.myViewModel = viewModel;
+        this.viewModel = viewModel;
         //     this.myViewModel.addObserver((Observer) view);
     }
 }

@@ -31,14 +31,12 @@ import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
-public class MyViewController extends AView implements Initializable,Observer {
+
+
+public class MyViewController extends AViewMenuBarUsers implements Initializable,Observer {
 
     @FXML
-    public Menu solveButton;
-    public Menu exitButton;
-    public Menu helpButton;
-    public Menu aboutButton;
-    public MenuItem saveButton;
+
     private InvalidationListener listener = new InvalidationListener(){
 
         @Override
@@ -46,27 +44,7 @@ public class MyViewController extends AView implements Initializable,Observer {
             MazeDisplayer.draw();
         }
     };
-    public MyViewModel viewModel;
-    public View.MazeDisplayer MazeDisplayer;
-    public GridPane GridPane1;
-    public Pane MazePane;
-    public MenuBar menuBar;
 
-
-    public void setViewModel(MyViewModel viewModel) {
-        this.viewModel = viewModel;
-        this.viewModel.addObserver(this);
-    }
-
-    public void keyPressed(KeyEvent keyEvent) {
-        viewModel.movePlayer(keyEvent);
-        keyEvent.consume();
-    }
-
-
-    public void MenuBarNewPressed(javafx.event.ActionEvent actionEvent) {
-        openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
-    }
 
     public void MenuBarSavePressed(javafx.event.ActionEvent actionEvent){
         FileChooser fc = new FileChooser();
@@ -86,41 +64,22 @@ public class MyViewController extends AView implements Initializable,Observer {
         }
     }
 
-    public void MenuBarLoadPressed(javafx.event.ActionEvent actionEvent){
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Open maze");
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Maze files (*.maze)", "*.maze"));
-        fc.setInitialDirectory(new File("./resources"));
-        File chosen = fc.showOpenDialog(null);
-        try {
-            viewModel.loadMaze(chosen);
-        }
-        catch (IOException | ClassNotFoundException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Couldn't open file!");
-            alert.show();
-        }
-        catch (IllegalArgumentException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("File doesn't contain a legal maze!");
-            alert.show();
-        }
+
+    public void setViewModel(MyViewModel viewModel) {
+        this.viewModel = viewModel;
+        this.viewModel.addObserver(this);
     }
 
-    public void MenuBarExitPressed(){
-
+    public void keyPressed(KeyEvent keyEvent) {
+        viewModel.movePlayer(keyEvent);
+        keyEvent.consume();
     }
 
-    public void MenuBarPropertiesPressed(javafx.event.ActionEvent actionEvent){
-        openNewWindowModel(viewModel,"OptionsWindow.fxml","Options");
-    }
 
-    public void MenuBarHelpPressed(){
 
-    }
-    public void MenuBarAboutPressed(){
 
-    }
+
+
 
     @Override
     public void update(Observable o, Object arg) {
@@ -144,9 +103,6 @@ public class MyViewController extends AView implements Initializable,Observer {
 
     private void goalReached() {
         playerMoved();
-
-
-        //  FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
 
 
 
@@ -210,23 +166,13 @@ public class MyViewController extends AView implements Initializable,Observer {
         Label solveLabel = new Label("Solve");
         solveLabel.setOnMouseClicked(mouseEvent->{MenuBarSolvePressed();});
         solveButton.setGraphic(solveLabel);
-
-        //create help button
-        Label helpLabel = new Label("Help");
-        helpLabel.setOnMouseClicked(mouseEvent->{MenuBarHelpPressed();});
-        helpButton.setGraphic(helpLabel);
-
-        //create about button
-        Label aboutLabel = new Label("About");
-        aboutLabel.setOnMouseClicked(mouseEvent->{MenuBarAboutPressed();});
-        aboutButton.setGraphic(aboutLabel);
-
-        //create exit button
-        Label exitLabel = new Label("Exit");
-        exitLabel.setOnMouseClicked(mouseEvent->{MenuBarExitPressed();});
-        exitButton.setGraphic(exitLabel);
+        //initializing AViewMenuBarUsers controls
+        initControls();
     }
 
+    public void MenuBarNewPressed(javafx.event.ActionEvent actionEvent) {
+        openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
+    }
 
     public void mouseCLicked(MouseEvent mouseEvent) {
         MazeDisplayer.requestFocus();
