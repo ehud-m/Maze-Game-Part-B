@@ -111,9 +111,6 @@ public class MazeDisplayer extends Canvas {
         } catch (FileNotFoundException e) {
             System.out.println("There is no player image file");
         }
-       // if(playerImage == null)
-       //     graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-       // else
         for (AState s:solution.getSolutionPath()) {
             double x = ((MazeState)s).getPosition().getColumnIndex() * cellWidth;
             double y = ((MazeState)s).getPosition().getRowIndex() * cellHeight;
@@ -139,10 +136,7 @@ public class MazeDisplayer extends Canvas {
                     double x = j * cellWidth;
                     double y = i * cellHeight;
                 if(maze.getPositionValue(i,j) == 1){
-                    /*if(wallImage == null)
-                        graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-                    else*/
-                        graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
+                    graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
                 }
                 else{
                     graphicsContext.drawImage(seaImage,x,y,cellWidth,cellHeight);
