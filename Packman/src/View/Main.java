@@ -18,7 +18,7 @@ public class Main extends Application {
     private static MediaPlayer mediaPlayer;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InitalWindow.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("TreasureHunt");
 
@@ -33,7 +33,7 @@ public class Main extends Application {
 
         IModel model = new MyModel();
         MyViewModel viewModel = new MyViewModel(model);
-        MyViewController viewController = fxmlLoader.getController();
+        InitialWindowController viewController = fxmlLoader.getController();
         viewController.setViewModel(viewModel);
     }
 
