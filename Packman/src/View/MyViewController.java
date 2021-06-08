@@ -24,6 +24,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -39,6 +40,7 @@ import java.util.ResourceBundle;
 
 public class MyViewController extends AViewMenuBarUsers implements Initializable,Observer {
 
+    private boolean dragOnPlayer=false;
     private Timeline timeline = new Timeline();
 
     @FXML
@@ -75,7 +77,12 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
     }
 
     public void keyPressed(KeyEvent keyEvent) {
-        viewModel.movePlayer(keyEvent);
+        try {viewModel.movePlayer(keyEvent);}
+        catch (IllegalStateException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Game is over! Create a new game to play");
+            alert.show();
+        }
         keyEvent.consume();
     }
 
@@ -109,6 +116,7 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         playerMoved();
 
         Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("You Made Itttt!!!!!!!!");
 
         String path = "./resources/Fireworks animation HD.mp4";
@@ -217,6 +225,50 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
     public void MenuBarNewPressed(javafx.event.ActionEvent actionEvent) {
         openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
+    }
+
+    public void mouseDragReleased(MouseEvent event) {
+        dragOnPlayer=false;
+    }
+
+    public void mouseDragEntered(MouseEvent event) {
+        int rows = viewModel.getMaze().getRows();
+        int cols = viewModel.getMaze().getCols();
+
+        double cellHeight = MazeDisplayer.getHeight()/rows;
+        double cellWidth = MazeDisplayer.getWidth()/cols;
+
+        double x = event.getSceneX();
+        double y = event.getSceneY()-25;
+
+        int i = (int)(y/cellHeight);
+        int j = (int)(x/cellWidth);
+
+        if (i==viewModel.getPlayerRow() && j==viewModel.getPlayerCol())
+            dragOnPlayer=true;
+    }
+
+    public void mouseDragged(MouseEvent event) {
+        if (dragOnPlayer) {
+            int rows = viewModel.getMaze().getRows();
+            int cols = viewModel.getMaze().getCols();
+
+            double cellHeight = MazeDisplayer.getHeight() / rows;
+            double cellWidth = MazeDisplayer.getWidth() / cols;
+
+            double x = event.getSceneX();
+            double y = event.getSceneY() - 25;
+
+            int i = (int) (y / cellHeight);
+            int j = (int) (x / cellWidth);
+
+            try {viewModel.setPlayerLoc(i, j);}
+            catch (IllegalStateException e) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Game is over! Create a new game to play");
+                alert.show();
+            }
+        }
     }
 
     public void mouseCLicked(MouseEvent mouseEvent) {

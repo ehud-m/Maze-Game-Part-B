@@ -1,10 +1,13 @@
 package View;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +42,7 @@ public abstract class AViewMenuBarUsers extends AView {
 
         //create exit button
         Label exitLabel = new Label("Exit");
-        exitLabel.setOnMouseClicked(mouseEvent->{MenuBarExitPressed();});
+        exitLabel.setOnMouseClicked(mouseEvent->{MenuBarExitPressed(mouseEvent);});
         exitButton.setGraphic(exitLabel);
 
 
@@ -66,8 +69,10 @@ public abstract class AViewMenuBarUsers extends AView {
         }
     }
 
-    public void MenuBarExitPressed(){
-
+    public void MenuBarExitPressed(MouseEvent event){
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        thisStage.close();
     }
 
     public void MenuBarPropertiesPressed(javafx.event.ActionEvent actionEvent){
@@ -78,7 +83,7 @@ public abstract class AViewMenuBarUsers extends AView {
         openNewWindow("HelpWindow.fxml","Help");
     }
     public void MenuBarAboutPressed(){
-
+        openNewWindow("AboutWindow.fxml","Help");
     }
 
 }

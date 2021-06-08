@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 
 public class Main extends Application {
 
+    private MyViewModel viewModel;
     private static MediaPlayer mediaPlayer;
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -35,7 +36,7 @@ public class Main extends Application {
 
 
         IModel model = new MyModel();
-        MyViewModel viewModel = new MyViewModel(model);
+        viewModel = new MyViewModel(model);
         InitialWindowController viewController = fxmlLoader.getController();
         viewController.setViewModel(viewModel);
     }
@@ -46,6 +47,10 @@ public class Main extends Application {
 
 
 
+    }
+
+    public void stop() {
+        viewModel.stop();
     }
 
     public static void startMusic(){
