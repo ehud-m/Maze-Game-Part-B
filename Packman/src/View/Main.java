@@ -28,9 +28,9 @@ public class Main extends Application {
 
         //set media
         String s = "./resources/Pirates Of The Caribbean Theme Song.mp3";
-        Media media = new Media(Paths.get(s).toUri().toString());
+/*        Media media = new Media(Paths.get(s).toUri().toString());
         mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setAutoPlay(true);*/
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
 

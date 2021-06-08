@@ -45,6 +45,8 @@ public abstract class AViewMenuBarUsers extends AView {
         exitLabel.setOnMouseClicked(mouseEvent->{MenuBarExitPressed(mouseEvent);});
         exitButton.setGraphic(exitLabel);
 
+        //bind the menubar width to window width
+        menuBar.prefWidthProperty().bind(GridPane1.widthProperty());
 
     }
 

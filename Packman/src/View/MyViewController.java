@@ -114,8 +114,7 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
     private void goalReached() {
         playerMoved();
-
-        Stage stage = new Stage();
+        /*Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("You Made Itttt!!!!!!!!");
 
@@ -179,7 +178,7 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-
+*/
     }
 
 
@@ -207,9 +206,6 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         //every time window reshapes, redraw the maze
         MazeDisplayer.widthProperty().addListener(listener);
         MazeDisplayer.heightProperty().addListener(listener);
-        //bind the menubar width to window width
-        menuBar.prefWidthProperty().bind(GridPane1.widthProperty());
-
         //create solve button
         Label solveLabel = new Label("Solve");
         solveLabel.setOnMouseClicked(mouseEvent->{MenuBarSolvePressed();});
