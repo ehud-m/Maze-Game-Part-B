@@ -13,12 +13,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.awt.event.MouseEvent;
+import java.beans.EventHandler;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Random;
 
 public class MazeDisplayer extends Canvas {
     private Maze maze;
     private Solution solution;
+
+    private boolean[][] randomAddings;
     // player position:
     private int playerRow;
     private int playerCol;
@@ -27,21 +32,37 @@ public class MazeDisplayer extends Canvas {
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNameSea = new SimpleStringProperty();
     StringProperty imageFileNameSolution = new SimpleStringProperty();
+    StringProperty imageFileNameWallAdding = new SimpleStringProperty();
+
+    public void setImageFileNameWall(String imageFileNameWall) {
+        this.imageFileNameWall.set(imageFileNameWall);
+    }
+
+    public void setImageFileNamePlayer(String imageFileNamePlayer) {
+        this.imageFileNamePlayer.set(imageFileNamePlayer);
+    }
 
     public void setImageFileNameSea(String imageFileNameSea) {
         this.imageFileNameSea.set(imageFileNameSea);
     }
 
+    public void setImageFileNameSolution(String imageFileNameSolution) {
+        this.imageFileNameSolution.set(imageFileNameSolution);
+    }
+
+    public void setImageFileNameWallAdding(String imageFileNameWallAdding) {
+        this.imageFileNameWallAdding.set(imageFileNameWallAdding);
+    }
+
+    public String getImageFileNameWallAdding() {
+        return imageFileNameWallAdding.get();
+    }
     public String getImageFileNameSea() {
         return imageFileNameSea.get();
     }
 
     public String getImageFileNameSolution() {
         return imageFileNameSolution.get();
-    }
-
-    public void setImageFileNameSolution(String imageFileNameSolution) {
-        this.imageFileNameSolution.set(imageFileNameSolution);
     }
 
     public int getPlayerRow() {
@@ -62,17 +83,8 @@ public class MazeDisplayer extends Canvas {
         return imageFileNameWall.get();
     }
 
-
-    public void setImageFileNameWall(String imageFileNameWall) {
-        this.imageFileNameWall.set(imageFileNameWall);
-    }
-
     public String getImageFileNamePlayer() {
         return imageFileNamePlayer.get();
-    }
-
-    public void setImageFileNamePlayer(String imageFileNamePlayer) {
-        this.imageFileNamePlayer.set(imageFileNamePlayer);
     }
 
     public void drawMaze(Maze maze) {
@@ -80,8 +92,16 @@ public class MazeDisplayer extends Canvas {
         this.solution=null;
         this.playerRow = maze.getStartPosition().getRowIndex();
         this.playerCol = maze.getStartPosition().getColumnIndex();
+
+        Random rnd  = new Random();
+        this.randomAddings = new boolean[maze.getRows()][maze.getCols()];
+        for (int i =0;i<maze.getRows();i++)
+            for (int j = 0 ; j<maze.getCols();j++)
+                randomAddings[i][j]=(rnd.nextInt(5)==0);
+
         draw();
     }
+
     public void draw() {
         if(maze != null){
             double canvasHeight = getHeight();
@@ -125,9 +145,11 @@ public class MazeDisplayer extends Canvas {
 
         Image wallImage = null;
         Image seaImage = null;
+        Image wallAddingImage=null;
         try{
             wallImage = new Image(new FileInputStream(getImageFileNameWall()));
             seaImage = new Image(new FileInputStream(getImageFileNameSea()));
+            wallAddingImage = new Image(new FileInputStream(getImageFileNameWallAdding()));
         } catch (FileNotFoundException e) {
             System.out.println("There is no wall image file");
         }
@@ -143,11 +165,12 @@ public class MazeDisplayer extends Canvas {
                         graphicsContext.fillRect(x, y, cellWidth, cellHeight);
                     else*/
                         graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
+                        if (wallAddingImage!=null && randomAddings[i][j])
+                            graphicsContext.drawImage(wallAddingImage, x, y, cellWidth, cellHeight);
                 }
                 else{
                     graphicsContext.drawImage(seaImage,x,y,cellWidth,cellHeight);
                 }
-
             }
         }
     }

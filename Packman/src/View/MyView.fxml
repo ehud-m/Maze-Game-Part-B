@@ -43,7 +43,9 @@
             </children>
         </Pane>
         <Pane fx:id="MazePane" onMouseClicked="#mouseCLicked" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-            <MazeDisplayer fx:id="MazeDisplayer" imageFileNamePlayer="./resources/thisboat.png" imageFileNameSea="./resources/Sea1.jpg" imageFileNameSolution="./resources/flag.png" imageFileNameWall="./resources/ThisSand.jpg" onKeyPressed="#keyPressed" />
+            <MazeDisplayer fx:id="MazeDisplayer" imageFileNamePlayer="./resources/thisboat.png" imageFileNameSea="./resources/Sea1.jpg" imageFileNameSolution="./resources/flag.png"
+                           imageFileNameWall="./resources/ThisSand.jpg" onKeyPressed="#keyPressed" onMouseDragged="#mouseDragged"
+                           imageFileNameWallAdding="./resources/skel.png" onMousePressed="#mouseDragEntered" onMouseReleased="#mouseDragReleased" />
         </Pane>
     </children>
 </GridPane>

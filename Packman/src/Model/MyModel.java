@@ -49,8 +49,8 @@ public class MyModel extends Observable implements IModel{
         ob.close();
     }
     public void loadMaze(Maze maze) {
-        this.maze=maze;
         this.solution=null;
+        this.maze=maze;
         playerRow = maze.getStartPosition().getRowIndex(); // strat pos
         playerCol = maze.getStartPosition().getColumnIndex();
         setChanged();
@@ -95,6 +95,12 @@ public class MyModel extends Observable implements IModel{
 
     }
 
+    public void stop() { ////////////////////////maybe need to change servers stop
+        System.out.println("Servers stopped");
+        generator.stop();
+        solver.stop();
+    }
+
     @Override
     public void updatePlayerLocation(MovementDirection direction) {
 
@@ -104,25 +110,25 @@ public class MyModel extends Observable implements IModel{
                 updateLocation(playerRow-1,playerCol);
                 break;
             case UPRight:
-                updateLocation(playerRow-1,playerCol+1);
+                updateLocationDiagonal(playerRow-1,playerCol+1);
                 break;
             case Right:
                 updateLocation(playerRow,playerCol+1);
                 break;
             case DownRight:
-                updateLocation(playerRow+1,playerCol+1);
+                updateLocationDiagonal(playerRow+1,playerCol+1);
                 break;
             case Down:
                 updateLocation(playerRow+1,playerCol);
                 break;
             case DownLeft:
-                updateLocation(playerRow+1,playerCol-1);
+                updateLocationDiagonal(playerRow+1,playerCol-1);
                 break;
             case Left:
                 updateLocation(playerRow,playerCol-1);
                 break;
             case UPLeft:
-                updateLocation(playerRow-1,playerCol-1);
+                updateLocationDiagonal(playerRow-1,playerCol-1);
                 break;
             default:
                 break;
@@ -130,7 +136,13 @@ public class MyModel extends Observable implements IModel{
 
     }
 
-    private void updateLocation(int newplayerRow, int newplayerCol) {
+    private void updateLocationDiagonal(int newplayerRow, int newplayerCol) {
+        if ((maze.PositionInMaze(newplayerRow,playerCol) && maze.getPositionValue(newplayerRow,playerCol)==0)||
+                (maze.PositionInMaze(playerRow,newplayerCol) && maze.getPositionValue(playerRow,newplayerCol)==0))
+            updateLocation(newplayerRow,newplayerCol);
+
+    }
+    public void updateLocation(int newplayerRow, int newplayerCol) {
         if(!(maze.PositionInMaze(newplayerRow,newplayerCol) && maze.getPositionValue(newplayerRow,newplayerCol) == 0))
             return;
         playerRow = newplayerRow;

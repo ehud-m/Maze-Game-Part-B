@@ -107,4 +107,24 @@ public class MyViewModel extends Observable implements Observer {
             model.loadMaze((Maze)obj);
 
     }
+
+    public void setPlayerLoc(int i, int j) {
+        int y = model.getPlayerRow();
+        int x = model.getPlayerCol();
+        Maze maze = model.getMaze();
+
+        int disX=Math.abs(x-j);
+        int disY=Math.abs(y-i);
+
+        if (disX+disY==1)
+            model.updateLocation(i,j);
+        else if (disX==1 && disY==1 && (maze.getPositionValue(y,j)==0 ||  maze.getPositionValue(i,x)==0) )
+            model.updateLocation(i,j);
+
+
+    }
+
+    public void stop() {
+        model.stop();
+    }
 }

@@ -21,4 +21,8 @@ public interface IModel {
     int getPlayerRow();
     int getPlayerCol();
     void assignObserver(Observer o);
+
+    void updateLocation(int newplayerRow, int newplayerCol);
+
+    void stop();
 }

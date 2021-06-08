@@ -3,14 +3,14 @@ package View;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -51,6 +51,7 @@ public class MyViewController extends AView implements Initializable,Observer {
     public GridPane GridPane1;
     public Pane MazePane;
     public MenuBar menuBar;
+    private boolean dragOnPlayer;
 
 
     public void setViewModel(MyViewModel viewModel) {
@@ -107,8 +108,10 @@ public class MyViewController extends AView implements Initializable,Observer {
         }
     }
 
-    public void MenuBarExitPressed(){
-
+    public void MenuBarExitPressed(MouseEvent event){
+        Node node = (Node) event.getSource();
+        Stage thisStage = (Stage) node.getScene().getWindow();
+        thisStage.close();
     }
 
     public void MenuBarPropertiesPressed(javafx.event.ActionEvent actionEvent){
@@ -116,7 +119,7 @@ public class MyViewController extends AView implements Initializable,Observer {
     }
 
     public void MenuBarHelpPressed(){
-
+        openNewWindow("HelpWindow.fxml","Help");
     }
     public void MenuBarAboutPressed(){
 
@@ -144,10 +147,12 @@ public class MyViewController extends AView implements Initializable,Observer {
 
     private void goalReached() {
         playerMoved();
-
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("PARTYYYYYYYYYYYYY!");
+        alert.show();
 
         //  FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
-
+/*
 
 
         Stage stage = new Stage();
@@ -163,22 +168,18 @@ public class MyViewController extends AView implements Initializable,Observer {
         MediaView mediaView = new MediaView(mediaPlayer);
 
 
-        DoubleProperty mvw = mediaView.fitWidthProperty();
-        DoubleProperty mvh = mediaView.fitHeightProperty();
-
-        mvw.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-        mvh.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
-        mediaView.setPreserveRatio(true);
 
         Group root = new Group();
         root.getChildren().add(mediaView);
         Scene scene = new Scene(root,600,400);
-        Main.stopMusic();
+
         //root.getChildren().add(mediaView);
         stage.setScene(scene);
-
-        stage.show();
-        Main.startMusic();
+        double w = stage.getWidth(); // player.getMedia().getWidth();
+        double h = stage.getHeight();
+        mediaView.setFitHeight(h);
+        mediaView.setFitWidth(w);
+        stage.show();*/
     }
 
     private void mazeSolved() {
@@ -223,10 +224,50 @@ public class MyViewController extends AView implements Initializable,Observer {
 
         //create exit button
         Label exitLabel = new Label("Exit");
-        exitLabel.setOnMouseClicked(mouseEvent->{MenuBarExitPressed();});
+        exitLabel.setOnMouseClicked(mouseEvent->{MenuBarExitPressed(mouseEvent);});
         exitButton.setGraphic(exitLabel);
+
+        dragOnPlayer=false;
     }
 
+    public void mouseDragReleased(MouseEvent event) {
+        dragOnPlayer=false;
+    }
+
+    public void mouseDragEntered(MouseEvent event) {
+        int rows = viewModel.getMaze().getRows();
+        int cols = viewModel.getMaze().getCols();
+
+        double cellHeight = MazeDisplayer.getHeight()/rows;
+        double cellWidth = MazeDisplayer.getWidth()/cols;
+
+        double x = event.getSceneX();
+        double y = event.getSceneY()-25;
+
+        int i = (int)(y/cellHeight);
+        int j = (int)(x/cellWidth);
+
+        if (i==viewModel.getPlayerRow() && j==viewModel.getPlayerCol())
+            dragOnPlayer=true;
+    }
+
+    public void mouseDragged(MouseEvent event) {
+        if (dragOnPlayer) {
+            int rows = viewModel.getMaze().getRows();
+            int cols = viewModel.getMaze().getCols();
+
+            double cellHeight = MazeDisplayer.getHeight() / rows;
+            double cellWidth = MazeDisplayer.getWidth() / cols;
+
+            double x = event.getSceneX();
+            double y = event.getSceneY() - 25;
+
+            int i = (int) (y / cellHeight);
+            int j = (int) (x / cellWidth);
+
+            viewModel.setPlayerLoc(i, j);
+        }
+    }
 
     public void mouseCLicked(MouseEvent mouseEvent) {
         MazeDisplayer.requestFocus();
