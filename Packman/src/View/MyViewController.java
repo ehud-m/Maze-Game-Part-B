@@ -40,6 +40,7 @@ import java.util.ResourceBundle;
 
 public class MyViewController extends AViewMenuBarUsers implements Initializable,Observer {
 
+    //private double zoomFactor=1;
     private boolean dragOnPlayer=false;
     private Timeline timeline = new Timeline();
 
@@ -231,15 +232,14 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         int rows = viewModel.getMaze().getRows();
         int cols = viewModel.getMaze().getCols();
 
-        double cellHeight = MazeDisplayer.getHeight()/rows;
-        double cellWidth = MazeDisplayer.getWidth()/cols;
+        double cellHeight = MazePane.localToScene(MazePane.getBoundsInLocal()).getHeight()/rows;
+        double cellWidth = MazePane.localToScene(MazePane.getBoundsInLocal()).getWidth()/cols;
 
-        double x = event.getSceneX();
-        double y = event.getSceneY()-25;
+        double x = event.getSceneX()-MazePane.localToScene(MazePane.getBoundsInLocal()).getMinX();
+        double y = event.getSceneY()-MazePane.localToScene(MazePane.getBoundsInLocal()).getMinY();
 
         int i = (int)(y/cellHeight);
         int j = (int)(x/cellWidth);
-
         if (i==viewModel.getPlayerRow() && j==viewModel.getPlayerCol())
             dragOnPlayer=true;
     }
@@ -249,11 +249,11 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
             int rows = viewModel.getMaze().getRows();
             int cols = viewModel.getMaze().getCols();
 
-            double cellHeight = MazeDisplayer.getHeight() / rows;
-            double cellWidth = MazeDisplayer.getWidth() / cols;
+            double cellHeight = MazePane.localToScene(MazePane.getBoundsInLocal()).getHeight()/rows;
+            double cellWidth = MazePane.localToScene(MazePane.getBoundsInLocal()).getWidth()/cols;
 
-            double x = event.getSceneX();
-            double y = event.getSceneY() - 25;
+            double x = event.getSceneX()-MazePane.localToScene(MazePane.getBoundsInLocal()).getMinX();
+            double y = event.getSceneY()-MazePane.localToScene(MazePane.getBoundsInLocal()).getMinY();
 
             int i = (int) (y / cellHeight);
             int j = (int) (x / cellWidth);
@@ -286,7 +286,6 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
     public void mouseScrolled(ScrollEvent scrollEvent) {
 
         if(scrollEvent.isControlDown()){
-
             double zoomFactor = 1.1;
             double deltaY = scrollEvent.getDeltaY();
 
