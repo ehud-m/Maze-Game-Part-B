@@ -15,38 +15,31 @@ import java.nio.file.Paths;
 
 public class Main extends Application {
 
-    private static MediaPlayer mediaPlayer;
+
+    private MyViewModel viewModel;
+    private MediaPlayer mediaPlayer;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AboutWindow.fxml"));
+
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("TreasureHunt");
-
-        //set media
-        String s = "./resources/Pirates Of The Caribbean Theme Song.mp3";
+        /*String s = "./resources/Pirates Of The Caribbean Theme Song.mp3";
         Media media = new Media(Paths.get(s).toUri().toString());
         mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setAutoPlay(true);*/
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
-
-
-        IModel model = new MyModel();
-        MyViewModel viewModel = new MyViewModel(model);
+        /*IModel model = new MyModel();
+        viewModel = new MyViewModel(model);
         MyViewController viewController = fxmlLoader.getController();
-        viewController.setViewModel(viewModel);
+        viewController.setViewModel(viewModel);*/
     }
 
-    public static void stopMusic(){
-
-        mediaPlayer.stop();
+    public void stop() {
+        viewModel.stop();
     }
-
-    public static void startMusic(){
-
-        mediaPlayer.play();
-    }
-
     public static void main(String[] args) {
         launch(args);
     }

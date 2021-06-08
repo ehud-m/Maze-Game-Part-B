@@ -15,7 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-public class CreateMazeWindow extends AView  {
+public class CreateMazeWindow extends AView {
 
     public TextField new_maze_rows;
     public TextField new_maze_columns;
@@ -48,7 +48,6 @@ public class CreateMazeWindow extends AView  {
         myViewModel = viewModel;
         //myViewModel.addObserver(this);
     }
-
 
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode()== KeyCode.ENTER)
