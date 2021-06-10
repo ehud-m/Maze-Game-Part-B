@@ -115,14 +115,14 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
     private void goalReached() {
         playerMoved();
-        /*Stage stage = new Stage();
+        Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("You Made Itttt!!!!!!!!");
 
-        String path = "./resources/Fireworks animation HD.mp4";
+        String path = "./resources/winScene.mp4";
         Media media = new Media(Paths.get(path).toUri().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setCycleCount(10500);
+        mediaPlayer.setCycleCount(12500);
         mediaPlayer.setAutoPlay(true);
 
         //set media view
@@ -136,7 +136,7 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
         Group root = new Group();
         root.getChildren().add(mediaView);
-        Scene scene = new Scene(root,mvh.doubleValue(),mvh.doubleValue());
+        Scene scene = new Scene(root,593,330);
         //stops music when goal achieved
         Main.stopMusic();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -144,12 +144,14 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
             public void handle(WindowEvent event) {
                 //start music when goal window close
                 Main.startMusic();
+                mediaPlayer.stop();
             }
         });
         Button newGameButton = new Button();
         newGameButton.setText("Click For New Game");
-        newGameButton.setLayoutX(550);
-        newGameButton.setLayoutY(270);
+        newGameButton.setLayoutX(230);
+        newGameButton.setLayoutY(300);
+        newGameButton.setStyle("View/style");
         newGameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -169,7 +171,14 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
                 CreateMazeWindow viewController = fxmlLoader.getController();
                 viewController.setViewModel(viewModel);
-                stage.setScene(new Scene(root,600,600));
+                Scene scene = new Scene(root, 600, 600);
+
+                scene.getStylesheets().add("View/style");
+                stage.setScene(scene);
+                stage.setTitle("Maze Creator");
+                stage.minHeightProperty().bind(stage.widthProperty().divide(1.48913));
+                stage.maxHeightProperty().bind(stage.widthProperty().divide(1.48913));
+                stage.setResizable(true);
                 stage.show();
 
             }
@@ -179,7 +188,6 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-*/
     }
 
 
@@ -213,10 +221,6 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         solveButton.setGraphic(solveLabel);
         //initializing AViewMenuBarUsers controls
         initControls();
-
-
-
-
 
     }
 

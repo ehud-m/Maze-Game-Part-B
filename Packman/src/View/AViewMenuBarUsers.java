@@ -50,6 +50,7 @@ public abstract class AViewMenuBarUsers extends AView {
 
     }
 
+
     public void MenuBarLoadPressed(javafx.event.ActionEvent actionEvent){
         FileChooser fc = new FileChooser();
         fc.setTitle("Open maze");
@@ -85,7 +86,7 @@ public abstract class AViewMenuBarUsers extends AView {
         openNewWindow("HelpWindow.fxml","Help");
     }
     public void MenuBarAboutPressed(){
-        openNewWindow("AboutWindow.fxml","Help");
+        openNewWindow("AboutWindow.fxml","About");
     }
 
 }

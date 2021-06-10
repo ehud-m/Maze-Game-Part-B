@@ -23,6 +23,7 @@ public class OptionsWindow extends AView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //set searching algorithm items
         ArrayList<String> searching_algorithms_names = new ArrayList<>();
         searching_algorithms_names.add("Best First Search");
         searching_algorithms_names.add("Breath First Search");
@@ -30,6 +31,7 @@ public class OptionsWindow extends AView implements Initializable {
         ObservableList<String> search_list = FXCollections.observableArrayList(searching_algorithms_names);
         Search_algorithm_ChoseBox.setItems(search_list);
 
+        //set generating algorithm items
         ArrayList<String> generating_algorithms_names = new ArrayList<>();
         generating_algorithms_names.add("My Maze Generator");
         generating_algorithms_names.add("Simple Maze Generator");
@@ -40,9 +42,12 @@ public class OptionsWindow extends AView implements Initializable {
 
     }
 
-
+    /**
+     * changes the configuration file at JarFile
+     * @param mouseEvent
+     */
     public void SubmitValues(MouseEvent mouseEvent) {
-
+        //
         Configurations c = Configurations.getConfigInstance();
         String generateAlgorithm = getBoxAlgorithm(generate_Algorithm_choiseBox);
         String SearchAlgorithm = getBoxAlgorithm(Search_algorithm_ChoseBox);
@@ -51,6 +56,10 @@ public class OptionsWindow extends AView implements Initializable {
 
     }
 
+    /**
+     * assert numbers only in textField
+     * @return string of numbers or null if that's not a number
+     */
     private String getThreadPoolSize() {
         String s = number_of_Threads_TF.getText();
         if (s.matches("[0-9]+")) //maybe allow spaces
@@ -60,7 +69,11 @@ public class OptionsWindow extends AView implements Initializable {
     }
 
 
-
+    /**
+     * returns string without spaces for configuration file
+     * @param chosen chosen option from chose box
+     * @return string without spaces for configuration file
+     */
     private String getBoxAlgorithm(ChoiceBox chosen) {
         Object o = chosen.getSelectionModel().getSelectedItem();
         if (o != null)

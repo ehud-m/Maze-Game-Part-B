@@ -18,22 +18,31 @@ import java.nio.file.Paths;
 
 public class Main extends Application {
 
+    private static Stage stage;
+
+    public static Stage getPrimaryStage() {
+        return stage;
+    }
+
+ //   private static Stage primaryStage;
     private MyViewModel viewModel;
     private static MediaPlayer mediaPlayer;
     @Override
     public void start(Stage primaryStage) throws Exception{
+        stage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InitalWindow.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("TreasureHunt");
 
         //set media
         String s = "./resources/Pirates Of The Caribbean Theme Song.mp3";
-/*        Media media = new Media(Paths.get(s).toUri().toString());
+        Media media = new Media(Paths.get(s).toUri().toString());
         mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);*/
-        primaryStage.setScene(new Scene(root, 600, 600));
+        mediaPlayer.setAutoPlay(true);
+        primaryStage.setScene(new Scene(root, 420, 260.1811));
+        //1.61426
+        //primaryStage.setResizable(false);
         primaryStage.show();
-
 
         IModel model = new MyModel();
         viewModel = new MyViewModel(model);

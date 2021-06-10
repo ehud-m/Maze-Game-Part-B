@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sun.util.locale.provider.AvailableLanguageTags;
 
 import java.io.IOException;
@@ -24,7 +25,12 @@ public abstract class AView implements IView {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(window_name);
-            stage.setScene(new Scene(root, 450, 450));
+            Scene scene = new Scene(root, 700, 700);
+            scene.getStylesheets().add("View/style");
+            stage.setScene(scene);
+            stage.minHeightProperty().bind(stage.widthProperty().divide(1.48913));
+            stage.maxHeightProperty().bind(stage.widthProperty().divide(1.48913));
+
             stage.show();
         }
 
@@ -41,7 +47,13 @@ public abstract class AView implements IView {
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(window_name);
-            stage.setScene(new Scene(root, 450, 450));
+            Scene scene = new Scene(root, 700, 700);
+            scene.getStylesheets().add("View/style");
+            stage.setScene(scene);
+
+            stage.minHeightProperty().bind(stage.widthProperty().divide(1.48913));
+            stage.maxHeightProperty().bind(stage.widthProperty().divide(1.48913));
+
             IView window = fxmlLoader.getController();
             window.setViewModel(viewModel);
             stage.show();

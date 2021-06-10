@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onKeyPressed="#keyPressed" prefHeight="185.0" prefWidth="342.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.CreateMazeWindow">
+<AnchorPane onKeyPressed="#keyPressed" prefHeight="204.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.CreateMazeWindow">
    <children>
-      <Button layoutX="139.0" layoutY="146.0" mnemonicParsing="false" onAction="#generateMaze" text="Generate" />
+      <Button layoutX="162.0" layoutY="145.0" mnemonicParsing="false" onAction="#generateMaze" text="Generate" />
       <Label layoutX="44.0" layoutY="62.0" text="Number of rows:" />
       <Label layoutX="44.0" layoutY="105.0" text="Number of columns:" />
-      <TextField fx:id="new_maze_rows" layoutX="159.0" layoutY="58.0" />
-      <TextField fx:id="new_maze_columns" layoutX="159.0" layoutY="101.0" />
-      <Label layoutX="138.0" layoutY="14.0" text="Label">
+      <TextField fx:id="new_maze_rows" layoutX="226.0" layoutY="67.0" />
+      <TextField fx:id="new_maze_columns" layoutX="226.0" layoutY="110.0" />
+      <Label layoutX="106.0" layoutY="14.0" prefHeight="27.0" prefWidth="202.0" text="Choose Your Maze Size">
          <font>
             <Font size="18.0" />
          </font>
