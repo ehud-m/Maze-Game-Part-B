@@ -114,7 +114,6 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
     }
 
     private void goalReached() {
-        playerMoved();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("You Made Itttt!!!!!!!!");
@@ -151,7 +150,8 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         newGameButton.setText("Click For New Game");
         newGameButton.setLayoutX(230);
         newGameButton.setLayoutY(300);
-        newGameButton.setStyle("View/style");
+        String s ="View/style";
+        newGameButton.setStyle(s);
         newGameButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -244,7 +244,7 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
         int i = (int)(y/cellHeight);
         int j = (int)(x/cellWidth);
-        if (i==viewModel.getPlayerRow() && j==viewModel.getPlayerCol())
+        if (i==MazeDisplayer.getPlayerRow() && j==MazeDisplayer.getPlayerCol())
             dragOnPlayer=true;
     }
 
@@ -264,9 +264,11 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
             try {viewModel.setPlayerLoc(i, j);}
             catch (IllegalStateException e) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Game is over! Create a new game to play");
-                alert.show();
+                if (i==MazeDisplayer.getPlayerRow() && j==MazeDisplayer.getPlayerCol()) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Game is over! Create a new game to play");
+                    alert.show();
+                }
             }
         }
     }

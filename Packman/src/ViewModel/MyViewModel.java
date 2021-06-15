@@ -51,8 +51,6 @@ public class MyViewModel extends Observable implements Observer {
     }
 
     public void movePlayer(KeyEvent keyEvent){
-        if (model.isSolved())
-            throw new IllegalStateException();
         MovementDirection direction;
         switch (keyEvent.getCode()){
             case NUMPAD1:
@@ -87,6 +85,8 @@ public class MyViewModel extends Observable implements Observer {
                 return;
 
         }
+        if (model.isSolved())
+            throw new IllegalStateException();
         model.updatePlayerLocation(direction);
     }
 
@@ -119,12 +119,13 @@ public class MyViewModel extends Observable implements Observer {
         int disX=Math.abs(x-j);
         int disY=Math.abs(y-i);
 
-        if (disX+disY==1)
-            model.updateLocation(i,j);
-        else if (disX==1 && disY==1 && (maze.getPositionValue(y,j)==0 ||  maze.getPositionValue(i,x)==0) )
-            model.updateLocation(i,j);
-
-
+        try {
+            if (disX + disY == 1)
+                model.updateLocation(i, j);
+            else if (disX == 1 && disY == 1 && (maze.getPositionValue(y, j) == 0 || maze.getPositionValue(i, x) == 0))
+                model.updateLocation(i, j);
+        }
+        catch (IndexOutOfBoundsException e) {}
     }
 
     public void stop() {
