@@ -300,26 +300,27 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
                 screenMinimumSize();
                 return;
             }
-
+            //we take the scroll event locations and calculate the zoom relative to the scroll event (the mazePane can be out of screen);
             double x = (scrollEvent.getSceneX() - (MazePane.localToScene(MazePane.getBoundsInLocal()).getWidth() / 2 + MazePane.localToScene(MazePane.getBoundsInLocal()).getMinX()));
             double y = (scrollEvent.getSceneY() - (MazePane.localToScene(MazePane.getBoundsInLocal()).getHeight() / 2 + MazePane.localToScene(MazePane.getBoundsInLocal()).getMinY()));
-
+            //we calculate the size of
             double size = (MazePane.getScaleX()*zoomFactor / MazePane.getScaleX()) - 1;
 
             makeTimeline(size,x,y,zoomFactor);
             MazePane.setScaleX(MazePane.getScaleX() * zoomFactor);
             MazePane.setScaleY(MazePane.getScaleY() * zoomFactor);
             scrollEvent.consume();
-              
-
 
         }
     }
 
     private void makeTimeline(double size, double x, double y, double zoomFactor) {
         timeline.getKeyFrames().clear();
+        //from -> to
         KeyFrame X1 = new KeyFrame(Duration.millis(1), new KeyValue(MazePane.translateXProperty(), MazePane.getTranslateX() - size * x));
+        //zoom
         KeyFrame X2 = new KeyFrame(Duration.millis(1), new KeyValue(MazePane.scaleXProperty(), MazePane.getScaleX()*zoomFactor));
+        //from -> to
         KeyFrame Y1 = new KeyFrame(Duration.millis(1), new KeyValue(MazePane.translateYProperty(), MazePane.getTranslateY() - size * y));
         KeyFrame Y2 = new KeyFrame(Duration.millis(1), new KeyValue(MazePane.scaleYProperty(), MazePane.getScaleX()*zoomFactor));
         timeline.getKeyFrames().addAll(X1,Y1,X2,Y2);
@@ -328,8 +329,10 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
     private void screenMinimumSize() {
         timeline.getKeyFrames().clear();
+        //from -> to
         KeyFrame X1 = new KeyFrame(Duration.millis(1), new KeyValue(MazePane.translateXProperty(), 0));
         KeyFrame X2 = new KeyFrame(Duration.millis(1), new KeyValue(MazePane.scaleXProperty(), 1));
+        //from -> to
         KeyFrame Y1 = new KeyFrame(Duration.millis(1), new KeyValue(MazePane.translateYProperty(), 0));
         KeyFrame Y2 = new KeyFrame(Duration.millis(1), new KeyValue(MazePane.scaleYProperty(), 1));
         timeline.getKeyFrames().addAll(X1,Y1,X2,Y2);

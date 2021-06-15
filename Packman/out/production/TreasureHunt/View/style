@@ -86,9 +86,7 @@ Button:hover {
     -fx-content-display: LEFT;
 }
 
-.startWindow{
-    -fx-background-image: ;
-}
+
 
 .scroll-pane {
    -fx-background: url("../../../../resources/othersWindows.jpg");
