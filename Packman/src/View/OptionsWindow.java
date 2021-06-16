@@ -38,8 +38,6 @@ public class OptionsWindow extends AView implements Initializable {
         generating_algorithms_names.add("Empty Maze Generator");
         ObservableList<String> generate_list = FXCollections.observableArrayList(generating_algorithms_names);
         generate_Algorithm_choiseBox.setItems(generate_list);
-
-
     }
 
     /**
@@ -53,7 +51,6 @@ public class OptionsWindow extends AView implements Initializable {
         String SearchAlgorithm = getBoxAlgorithm(Search_algorithm_ChoseBox);
         String threadPoolSize = getThreadPoolSize();
         c.writeProp(threadPoolSize,generateAlgorithm,SearchAlgorithm);
-
     }
 
     /**

@@ -3,19 +3,24 @@ package View;
 import ViewModel.MyViewModel;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.ResourceBundle;
 
 
-public class CreateMazeWindow extends AView  {
+public class CreateMazeWindow extends AView {
 
     public TextField new_maze_rows;
     public TextField new_maze_columns;
@@ -54,4 +59,5 @@ public class CreateMazeWindow extends AView  {
         if (keyEvent.getCode()== KeyCode.ENTER)
             generateMaze(keyEvent);
     }
+
 }

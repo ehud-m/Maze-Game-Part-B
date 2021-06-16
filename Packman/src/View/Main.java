@@ -51,11 +51,7 @@ public class Main extends Application {
     }
 
     public static void stopMusic(){
-
         mediaPlayer.stop();
-
-
-
     }
 
     public void stop() {
@@ -63,7 +59,6 @@ public class Main extends Application {
     }
 
     public static void startMusic(){
-
         mediaPlayer.play();
     }
 

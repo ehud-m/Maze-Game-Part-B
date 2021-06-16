@@ -31,7 +31,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-public class InitialWindowController extends AViewMenuBarUsers implements Initializable {
+public class InitialWindowController extends AViewMenuBarUsers implements Initializable,Observer {
     public Button newGameButton;//, Observer
     public Button menuBarAbout;
     public Pane ImagePane;
@@ -39,46 +39,51 @@ public class InitialWindowController extends AViewMenuBarUsers implements Initia
 
 
     @Override
+
     public void initialize(URL location, ResourceBundle resources) {
         initControls();
-
-       // Screen.getScreensForRectangle().
         Stage stage = Main.getPrimaryStage();
         stage.minHeightProperty().bind(stage.widthProperty().divide(1.614));
         stage.maxHeightProperty().bind(stage.widthProperty().divide(1.614));
         /*stage.minWidthProperty().bind(stage.heightProperty().multiply(1.614));
         stage.maxWidthProperty().bind(stage.heightProperty().multiply(1.614));*/
 
+        newGameButton.layoutYProperty().bind(stage.heightProperty().divide(2).subtract(60));
+        menuBarAbout.layoutYProperty().bind(stage.heightProperty().divide(2).subtract(20));
+
+        newGameButton.layoutXProperty().bind(stage.widthProperty().divide(2).subtract(40));
+        menuBarAbout.layoutXProperty().bind(stage.widthProperty().divide(2).subtract(40)) ;
     }
 
 
 
     public void MenuBarNewPressed(javafx.event.ActionEvent actionEvent) {
-        loadMyViewControllerViaMenueBar(actionEvent);
+        //loadMyViewControllerViaMenueBar(actionEvent);
         openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
 
     }
 
     @Override
     public void MenuBarLoadPressed(ActionEvent actionEvent) {
-        loadMyViewControllerViaMenueBar(actionEvent);
+        //loadMyViewControllerViaMenueBar(actionEvent);
         super.MenuBarLoadPressed(actionEvent);
     }
 
-    private void loadMyViewControllerViaMenueBar(ActionEvent actionEvent) {
-
-        MenuItem menuItem = (MenuItem)actionEvent.getTarget();
-        Stage stage = (Stage)menuItem.getParentPopup().getOwnerWindow();
+    private void loadMyViewControllerViaMenueBar() {
+        Stage stage = Main.getPrimaryStage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
 
         Parent root = getRoot(fxmlLoader);
         Scene scene = new Scene(root, 450, 450);
         scene.getStylesheets().add("View/style");
         stage.setScene(scene);
-        stage.show();
-
         MyViewController viewController = fxmlLoader.getController();
         viewController.setViewModel(viewModel);
+        viewController.solveButton.setDisable(false);
+        viewController.saveButton.setDisable(false);
+        viewController.MazeDisplayer.drawMaze(viewModel.getMaze());
+        viewController.MazeDisplayer.requestFocus();
+        stage.show();
 
     }
 
@@ -95,23 +100,19 @@ public class InitialWindowController extends AViewMenuBarUsers implements Initia
         return root;
     }
 
-    private void loadMyViewController(javafx.event.ActionEvent actionEvent) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
-        Parent root = getRoot(fxmlLoader);
-        Node node = (Node) actionEvent.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
-        Scene scene = new Scene(root, 450, 450);
-        scene.getStylesheets().add("View/style");
-        thisStage.setScene(scene);
-        thisStage.show();
-
-        MyViewController viewController = fxmlLoader.getController();
-        viewController.setViewModel(viewModel);
+    public void setViewModel(MyViewModel viewModel) {
+        this.viewModel = viewModel;
+        this.viewModel.addObserver(this);
     }
 
-
     public void newGameButtonPressed(javafx.event.ActionEvent actionEvent) {
-        loadMyViewController(actionEvent);
         openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (arg.equals("maze generated")) {
+            loadMyViewControllerViaMenueBar();
+        }
     }
 }

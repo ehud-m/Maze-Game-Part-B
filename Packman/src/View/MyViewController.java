@@ -114,7 +114,6 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
     }
 
     private void goalReached() {
-        playerMoved();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("You Made Itttt!!!!!!!!");
@@ -244,7 +243,7 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
         int i = (int)(y/cellHeight);
         int j = (int)(x/cellWidth);
-        if (i==viewModel.getPlayerRow() && j==viewModel.getPlayerCol())
+        if (i==MazeDisplayer.getPlayerRow() && j==MazeDisplayer.getPlayerCol())
             dragOnPlayer=true;
     }
 
@@ -264,9 +263,11 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
             try {viewModel.setPlayerLoc(i, j);}
             catch (IllegalStateException e) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Game is over! Create a new game to play");
-                alert.show();
+                if (i==MazeDisplayer.getPlayerRow() && j==MazeDisplayer.getPlayerCol()) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Game is over! Create a new game to play");
+                    alert.show();
+                }
             }
         }
     }
