@@ -9,13 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import Server.Configurations;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 
+/**
+ * options window controller
+ */
 public class OptionsWindow extends AView implements Initializable {
     public TextField number_of_Threads_TF;
     public ChoiceBox Search_algorithm_ChoseBox;
@@ -25,7 +25,11 @@ public class OptionsWindow extends AView implements Initializable {
     public Label lable_searchAlgorithm;
     public Label lable_ThreadPoolSize;
 
-
+    /**
+     * set values in choise boxes and changes label style
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //set searching algorithm items

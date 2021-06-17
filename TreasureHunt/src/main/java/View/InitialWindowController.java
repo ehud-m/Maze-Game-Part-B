@@ -9,12 +9,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+
+/**
+ * Initial Window Controller
+ */
 
 public class InitialWindowController extends AViewMenuBarUsers implements Initializable,Observer {
     public Button newGameButton;//, Observer
@@ -22,9 +25,12 @@ public class InitialWindowController extends AViewMenuBarUsers implements Initia
     public Pane ImagePane;
 
 
-
+    /**
+     * initialize window
+     * @param location
+     * @param resources
+     */
     @Override
-
     public void initialize(URL location, ResourceBundle resources) {
         initControls();
         Stage stage = Main.getPrimaryStage();
@@ -41,28 +47,29 @@ public class InitialWindowController extends AViewMenuBarUsers implements Initia
     }
 
 
-
+    /**
+     * opens create maze window to inserts maze sizes
+     * @param actionEvent clicked on new in menu bar
+     */
     public void MenuBarNewPressed(javafx.event.ActionEvent actionEvent) {
         //loadMyViewControllerViaMenueBar(actionEvent);
         openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
 
     }
 
+
     @Override
     public void MenuBarLoadPressed(ActionEvent actionEvent) {
-        //loadMyViewControllerViaMenueBar(actionEvent);
         super.MenuBarLoadPressed(actionEvent);
     }
+
 
     private void loadMyViewControllerViaMenueBar() {
         Stage stage = Main.getPrimaryStage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("MyView.fxml"));
-
         Parent root = getRoot(fxmlLoader);
         Scene scene = new Scene(root, 700, 733);
         scene.getStylesheets().add("initialwindowStyle");
-/*        stage.minHeightProperty().unbind();
-        stage.maxHeightProperty().unbind();*/
         stage.setScene(scene);
         MyViewController viewController = fxmlLoader.getController();
         viewController.setViewModel(viewModel);

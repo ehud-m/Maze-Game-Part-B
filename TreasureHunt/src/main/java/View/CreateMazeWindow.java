@@ -40,7 +40,7 @@ public class CreateMazeWindow extends AView implements Initializable {
             thisStage.close();
 
         }
-        catch (NumberFormatException | UnknownHostException nfe){
+        catch (NumberFormatException e){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Please Enter Numbers Only");
             alert.show();

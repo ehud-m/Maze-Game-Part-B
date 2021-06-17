@@ -17,11 +17,13 @@ public class Main extends Application {
 
     private static Stage stage;
 
+    /**
+     * @return main stage (initalWindow stage)
+     */
     public static Stage getPrimaryStage() {
         return stage;
     }
 
- //   private static Stage primaryStage;
     private MyViewModel viewModel;
     private static MediaPlayer mediaPlayer;
     @Override
@@ -47,14 +49,23 @@ public class Main extends Application {
         viewController.setViewModel(viewModel);
     }
 
+    /**
+     * stops music
+     */
     public static void stopMusic(){
         mediaPlayer.stop();
     }
 
+    /**
+     * stops model
+     */
     public void stop() {
         viewModel.stop();
     }
 
+    /**
+     * starts music
+     */
     public static void startMusic(){
         mediaPlayer.play();
     }

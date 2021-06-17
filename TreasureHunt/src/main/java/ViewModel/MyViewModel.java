@@ -13,43 +13,82 @@ import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * this class implements View Model from mvvm structure
+ */
 public class MyViewModel extends Observable implements Observer {
     private IModel model;
 
+    /**
+     * constructor
+     * @param model model of the ViewModel
+     */
     public MyViewModel(IModel model) {
         this.model = model;
         this.model.assignObserver(this); // i am one of the observer of the model
     }
 
+    /**
+     * update observers
+     * @param observable
+     * @param o observers
+     */
     @Override
     public void update(Observable observable, Object o) {
         setChanged();
         notifyObservers(o);
     }
+
+    /**
+     * saves the maze into *.maze file
+     * @param filetosave name of file
+     * @throws IOException
+     */
     public void saveMaze(File filetosave) throws IOException {
         model.saveMaze(filetosave);
     }
-    // we need to change it#%^$^&U^UTYJETYJERTYJRTYJRTYJ Throws exception
-    public void generateMaze(int rows,int cols) throws IllegalArgumentException,UnknownHostException { ////!!!UnknownHostException {
+
+    /**
+     * generate Maze function
+     * @param rows number of maze rows
+     * @param cols number of maze columns
+     * @throws IllegalArgumentException if the rows and cols is smaller than 1
+     */
+    public void generateMaze(int rows,int cols) throws IllegalArgumentException { ////!!!UnknownHostException {
         if (rows <1 || cols<1){
             throw new IllegalArgumentException();
         }
         model.generateMaze(rows, cols);
     }
-    // we need to change it#%^$^&U^UTYJETYJERTYJRTYJRTYJ Throws exception
 
+
+    /**
+     * asks from the model the maze
+     * @return model Maze
+     */
     public Maze getMaze(){
         return model.getMaze();
     }
-    // we need to change it#%^$^&U^UTYJETYJERTYJRTYJRTYJ Throws exception
-    public void solveMaze() throws UnknownHostException {
+
+    /**
+     * solves the maze
+     */
+    public void solveMaze() {
         model.solveMaze();
     }
-    // we need to change it#%^$^&U^UTYJETYJERTYJRTYJRTYJ Throws exception
+
+
+    /**
+     * @return Solution of the maze
+     */
     public Solution getSolution(){
         return model.getSolution();
     }
 
+    /**
+     * moves the player
+     * @param keyEvent the key that the user pressed
+     */
     public void movePlayer(KeyEvent keyEvent){
         MovementDirection direction;
         switch (keyEvent.getCode()){
@@ -90,14 +129,27 @@ public class MyViewModel extends Observable implements Observer {
         model.updatePlayerLocation(direction);
     }
 
+    /**
+     * @return player row in the model
+     */
     public int getPlayerRow(){
         return model.getPlayerRow();
     }
 
+    /**
+     * @return player column in the model
+     */
     public int getPlayerCol(){
         return model.getPlayerCol();
     }
 
+    /**
+     * load the maze
+     * @param chosen chosen file
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws IllegalArgumentException
+     */
     public void loadMaze(File chosen) throws IOException, ClassNotFoundException, IllegalArgumentException {
 
         ObjectInputStream reader = new ObjectInputStream(new FileInputStream(chosen));
@@ -109,6 +161,12 @@ public class MyViewModel extends Observable implements Observer {
             model.loadMaze((Maze)obj);
 
     }
+
+    /**
+     * set player location in the model
+     * @param i i in maze
+     * @param j j in maze
+     */
     public void setPlayerLoc(int i, int j) {
         if (model.isSolved())
             throw new IllegalStateException();
@@ -130,6 +188,9 @@ public class MyViewModel extends Observable implements Observer {
 
     }
 
+    /**
+     * stops the model Servers
+     */
     public void stop() {
         model.stop();
     }

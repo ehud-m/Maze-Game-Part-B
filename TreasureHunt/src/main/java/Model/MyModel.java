@@ -21,6 +21,9 @@ public class MyModel extends Observable implements IModel{
     private Server solver;
     private boolean isSolved;
 
+    /**
+     *
+     */
     public MyModel() {
         generator = new Server(5400,1000,new ServerStrategyGenerateMaze());
         generator.start();
@@ -29,10 +32,15 @@ public class MyModel extends Observable implements IModel{
     }
 
     @Override
-    public void generateMaze(int rows, int cols) throws UnknownHostException {
+    public void generateMaze(int rows, int cols)  {
         //need to call server
         ClientStrategyGenerateMaze clientStrategyGenerateMaze = new ClientStrategyGenerateMaze(rows,cols);
-        Client client = new Client(InetAddress.getLocalHost(),5400,clientStrategyGenerateMaze);
+        Client client = null;
+        try {
+            client = new Client(InetAddress.getLocalHost(),5400,clientStrategyGenerateMaze);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         client.communicateWithServer();
         isSolved=false;
         this.solution=null;
@@ -70,9 +78,15 @@ public class MyModel extends Observable implements IModel{
     }
 
     @Override
-    public void solveMaze() throws UnknownHostException {
+    public void solveMaze()  {
         ClientStrategySolveMaze solver = new ClientStrategySolveMaze(maze);
-        Client client = new Client(InetAddress.getLocalHost(),5401,solver);
+
+        Client client = null;
+        try {
+            client = new Client(InetAddress.getLocalHost(),5401,solver);
+        } catch (UnknownHostException e) {
+
+        }
         client.communicateWithServer();
 
         solution = solver.getSolution();

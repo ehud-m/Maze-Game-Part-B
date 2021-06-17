@@ -5,9 +5,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +24,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-
 import java.io.*;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -36,7 +32,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-
+/**
+ * MyView controller
+ */
 public class MyViewController extends AViewMenuBarUsers implements Initializable,Observer {
 
 
@@ -44,6 +42,9 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
     private boolean dragOnPlayer=false;
     private Timeline timeline = new Timeline();
 
+    /**
+     * window size listener
+     */
     @FXML
     private InvalidationListener listener = new InvalidationListener(){
         @Override
@@ -52,7 +53,10 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         }
     };
 
-
+    /**
+     * invoke when save item pressed on menuBar
+     * @param actionEvent
+     */
     public void MenuBarSavePressed(javafx.event.ActionEvent actionEvent){
         FileChooser fc = new FileChooser();
 
@@ -71,12 +75,19 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         }
     }
 
-
+    /**
+     * sets the view model and add MyViewController as observer
+     * @param viewModel the View model that MyView wants to observe on.
+     */
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
         this.viewModel.addObserver(this);
     }
 
+    /**
+     * keyPressed after games ends.
+     * @param keyEvent any key pressed
+     */
     public void keyPressed(KeyEvent keyEvent) {
         try {viewModel.movePlayer(keyEvent);}
         catch (IllegalStateException e) {
@@ -88,11 +99,11 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
     }
 
 
-
-
-
-
-
+    /**
+     * updates observers
+     * @param o
+     * @param arg observers
+     */
     @Override
     public void update(Observable o, Object arg) {
         String s = (String)arg;
@@ -113,6 +124,9 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         }
     }
 
+    /**
+     * means that the user land and the goal state
+     */
     private void goalReached() {
         playerMoved();
         Stage stage = new Stage();
@@ -178,13 +192,13 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
                 CreateMazeWindow viewController = fxmlLoader.getController();
                 viewController.setViewModel(viewModel);
-                Scene scene = new Scene(root, 600, 600);
+                Scene scene = new Scene(root, 700, 700);
 
                 scene.getStylesheets().add("style");
                 stage.setScene(scene);
                 stage.setTitle("Maze Creator");
-                stage.minHeightProperty().bind(stage.widthProperty().divide(1.48913));
-                stage.maxHeightProperty().bind(stage.widthProperty().divide(1.48913));
+                stage.minHeightProperty().bind(stage.widthProperty().divide(1.76574));
+                stage.maxHeightProperty().bind(stage.widthProperty().divide(1.76574));
                 stage.setResizable(true);
                 stage.show();
 
@@ -198,15 +212,24 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
     }
 
 
-
+    /**
+     * asks for solution from the view Model
+     */
     private void mazeSolved() {
         MazeDisplayer.setSolution(viewModel.getSolution());
     }
 
+    /**
+     * moves the player and draw
+     */
     private void playerMoved() {
         MazeDisplayer.setPlayerPosition(viewModel.getPlayerRow(),viewModel.getPlayerCol());
     }
 
+    /**
+     * drawing maze.
+     * maze generated, now the user can ask for solution and save the maze
+     */
     private void mazeGenerated() {
         solveButton.setDisable(false);
         saveButton.setDisable(false);
@@ -214,6 +237,12 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         MazeDisplayer.requestFocus();
     }
 
+    /**
+     * init:
+     * bind MazeDisplayer
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //bind mazeDisplayer size to window size
@@ -228,7 +257,7 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         solveButton.setGraphic(solveLabel);
         //initializing AViewMenuBarUsers controls
         initControls();
-
+        //set menu mute or unmute disable or undisable upon user request
         if(!playSounds) {
             MuteButton.setDisable(true);
             UnMuteButton.setDisable(false);
@@ -240,14 +269,26 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
 
     }
 
+    /**
+     * opens create maze window to inserts maze sizes
+     * @param actionEvent clicked on new in menu bar
+     */
     public void MenuBarNewPressed(javafx.event.ActionEvent actionEvent) {
         openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
     }
 
+    /**
+     *  checks if the user still drags the player
+     * @param event mouse released
+     */
     public void mouseDragReleased(MouseEvent event) {
         dragOnPlayer=false;
     }
 
+    /**
+     * user mouse drag started
+     * @param event mouse drag
+     */
     public void mouseDragEntered(MouseEvent event) {
         int rows = viewModel.getMaze().getRows();
         int cols = viewModel.getMaze().getCols();
@@ -264,6 +305,10 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
             dragOnPlayer=true;
     }
 
+    /**
+     * moves the player according to mouse movments
+     * @param event mouse dragged
+     */
     public void mouseDragged(MouseEvent event) {
         if (dragOnPlayer) {
             int rows = viewModel.getMaze().getRows();
@@ -289,22 +334,26 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         }
     }
 
+    /**
+     * user clicked on the MazeDisplayer
+     * @param mouseEvent mouse clicked
+     */
     public void mouseCLicked(MouseEvent mouseEvent) {
         MazeDisplayer.requestFocus();
     }
 
+    /**
+     * set solution path on the screen after solve button pressed on menuBar.
+     */
     @FXML
     public void MenuBarSolvePressed() {
-        try {
             viewModel.solveMaze();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
     }
 
-
-
-
+    /**
+     * zoom in function if control is down.
+     * @param scrollEvent
+     */
     public void mouseScrolled(ScrollEvent scrollEvent) {
 
         if(scrollEvent.isControlDown()){
@@ -321,8 +370,9 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
             //we take the scroll event locations and calculate the zoom relative to the scroll event (the mazePane can be out of screen);
             double x = (scrollEvent.getSceneX() - (MazePane.localToScene(MazePane.getBoundsInLocal()).getWidth() / 2 + MazePane.localToScene(MazePane.getBoundsInLocal()).getMinX()));
             double y = (scrollEvent.getSceneY() - (MazePane.localToScene(MazePane.getBoundsInLocal()).getHeight() / 2 + MazePane.localToScene(MazePane.getBoundsInLocal()).getMinY()));
-            //we calculate the size of
+            //we calculate the size of scale change in percent
             double size = (MazePane.getScaleX()*zoomFactor / MazePane.getScaleX()) - 1;
+            System.out.println(size);
 
             makeTimeline(size,x,y,zoomFactor);
             MazePane.setScaleX(MazePane.getScaleX() * zoomFactor);
@@ -332,6 +382,13 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         }
     }
 
+    /**
+     * enable zoom
+     * @param size adding percent
+     * @param x relative to scroll event and window sizes
+     * @param y relative to scroll event and window sizes
+     * @param zoomFactor 1.1 if scroll to the screen and 0.9 else
+     */
     private void makeTimeline(double size, double x, double y, double zoomFactor) {
         timeline.getKeyFrames().clear();
         //from -> to
@@ -345,6 +402,9 @@ public class MyViewController extends AViewMenuBarUsers implements Initializable
         timeline.play();
     }
 
+    /**
+     * stops the user from zoom out more than 100%
+     */
     private void screenMinimumSize() {
         timeline.getKeyFrames().clear();
         //from -> to
