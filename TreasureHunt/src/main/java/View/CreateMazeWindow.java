@@ -19,7 +19,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-
+/**
+ * This class represents the controller of the create maze window
+ */
 public class CreateMazeWindow extends AView implements Initializable {
 
     public TextField new_maze_rows;
@@ -29,18 +31,23 @@ public class CreateMazeWindow extends AView implements Initializable {
     public Label label_colNum;
     private MyViewModel myViewModel;
 
+    /**
+     * When the generate button is pressed, asks the model to generate a new maze
+     * @param actionEvent The event the caused the button to activate
+     */
     public void generateMaze(Event actionEvent) {
         try {
             int rows = Integer.valueOf(new_maze_rows.getText());
             int cols = Integer.valueOf(new_maze_columns.getText());
 
             myViewModel.generateMaze(rows,cols);
+            //close the create maze window
             Node node = (Node) actionEvent.getSource();
             Stage thisStage = (Stage) node.getScene().getWindow();
             thisStage.close();
 
         }
-        catch (NumberFormatException e){
+        catch (NumberFormatException | UnknownHostException nfe){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Please Enter Numbers Only");
             alert.show();
@@ -52,23 +59,24 @@ public class CreateMazeWindow extends AView implements Initializable {
         }
     }
 
-    public void setViewModel(MyViewModel viewModel) {
-        myViewModel = viewModel;
-        //myViewModel.addObserver(this);
-    }
-
-
+    /**
+     * Generates a new maze if ENTER is pressed
+     * @param keyEvent the key that was pressed
+     */
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode()== KeyCode.ENTER)
             generateMaze(keyEvent);
     }
 
+    /**
+     * When this window is initialized, set the labels style
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setLableStyle(label_colNum);
         setLableStyle(label_mazeSize);
         setLableStyle(label_rowNum);
-
-
     }
 }

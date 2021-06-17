@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
@@ -16,29 +17,27 @@ import java.util.Observer;
 import java.util.ResourceBundle;
 
 /**
- * Initial Window Controller
+ * Represents the controller of the Initial window
  */
-
 public class InitialWindowController extends AViewMenuBarUsers implements Initializable,Observer {
-    public Button newGameButton;//, Observer
+    public Button newGameButton;
     public Button menuBarAbout;
     public Pane ImagePane;
 
 
-    /**
-     * initialize window
-     * @param location
-     * @param resources
-     */
+
     @Override
+    /**
+     * On the window initialization, activates this function
+     */
     public void initialize(URL location, ResourceBundle resources) {
+        //init the menu bar buttons
         initControls();
+        //bind the height to the width to fit the picture
         Stage stage = Main.getPrimaryStage();
         stage.minHeightProperty().bind(stage.widthProperty().divide(1.614));
         stage.maxHeightProperty().bind(stage.widthProperty().divide(1.614));
-        /*stage.minWidthProperty().bind(stage.heightProperty().multiply(1.614));
-        stage.maxWidthProperty().bind(stage.heightProperty().multiply(1.614));*/
-
+        //bind the buttons layout to be in the middle of the window
         newGameButton.layoutYProperty().bind(stage.heightProperty().divide(2).subtract(60));
         menuBarAbout.layoutYProperty().bind(stage.heightProperty().divide(2).subtract(20));
 
@@ -46,24 +45,17 @@ public class InitialWindowController extends AViewMenuBarUsers implements Initia
         menuBarAbout.layoutXProperty().bind(stage.widthProperty().divide(2).subtract(45)) ;
     }
 
-
     /**
-     * opens create maze window to inserts maze sizes
-     * @param actionEvent clicked on new in menu bar
+     * Opens the create maze window when new is pressed
+     * @param actionEvent the event that caused the button to activate
      */
     public void MenuBarNewPressed(javafx.event.ActionEvent actionEvent) {
-        //loadMyViewControllerViaMenueBar(actionEvent);
         openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
-
     }
 
-
-    @Override
-    public void MenuBarLoadPressed(ActionEvent actionEvent) {
-        super.MenuBarLoadPressed(actionEvent);
-    }
-
-
+    /**
+     * Loads the game window (myView)
+     */
     private void loadMyViewControllerViaMenueBar() {
         Stage stage = Main.getPrimaryStage();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("MyView.fxml"));
@@ -75,12 +67,19 @@ public class InitialWindowController extends AViewMenuBarUsers implements Initia
         viewController.setViewModel(viewModel);
         viewController.solveButton.setDisable(false);
         viewController.saveButton.setDisable(false);
+        //draws the maze in the new window
         viewController.MazeDisplayer.drawMaze(viewModel.getMaze());
         viewController.MazeDisplayer.requestFocus();
         stage.show();
+        //The initial window shouldnt observe the viewModel anymore
         viewModel.deleteObserver(this);
     }
 
+    /**
+     * Gets the root of the new fxml that is loaded
+     * @param fxmlLoader The fxml Loader
+     * @return the root of the new fxml
+     */
     private Parent getRoot(FXMLLoader fxmlLoader) {
         Parent root = null;
         try
@@ -94,15 +93,26 @@ public class InitialWindowController extends AViewMenuBarUsers implements Initia
         return root;
     }
 
+    /**
+     * Sets the current views view model, and adds is as an observer
+     * @param viewModel
+     */
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
         this.viewModel.addObserver(this);
     }
 
+    /**
+     * Opens the create maze window when new is pressed
+     * @param actionEvent the event that caused the button to activate
+     */
     public void newGameButtonPressed(javafx.event.ActionEvent actionEvent) {
         openNewWindowModel(viewModel,"CreateMazeWindow.fxml","Maze Creator");
     }
 
+    /**
+     * When this contreller gets an update from its observerable, if a maze was generated - load the myView
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (arg.equals("maze generated")) {
